@@ -1,7 +1,7 @@
 <h1 align="center">Application Muter</h1>
 <p align="center" style="font-weight:bold;">A low effort application to mute the currently active window by pressing Ctrl + F1.</p>
 
-<p align="center"><img src="https://img.shields.io/github/stars/TheXorog/ApplicationMuter?style=social" align="center"> <img src="https://img.shields.io/github/watchers/TheXorog/ApplicationMuter?style=social" align="center"></p>
+<p align="center"><img src="https://img.shields.io/github/stars/TheXorog/ApplicationMuter" align="center"> <img src="https://img.shields.io/github/watchers/TheXorog/ApplicationMuter" align="center"></p>
 
 
 # FAQ
