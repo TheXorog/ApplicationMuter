@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MuteCurrentApplication", "MuteCurrentApplication.csproj", "{D655C30D-FF2F-444E-8762-DB9251C258FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationMuter", "ApplicationMuter.csproj", "{D655C30D-FF2F-444E-8762-DB9251C258FB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D073E09-23C9-45A7-B3AA-C8EACBB47660}"
 	ProjectSection(SolutionItems) = preProject
