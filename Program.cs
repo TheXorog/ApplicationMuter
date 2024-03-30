@@ -3,6 +3,7 @@ using NAudio.CoreAudioApi;
 using GlobalHotKeys;
 using GlobalHotKeys.Native.Types;
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 internal class Program
 {
@@ -10,15 +11,13 @@ internal class Program
 
     private async Task MainAsync()
     {
-        Console.WriteLine("Starting");
-        await Task.Delay(2000);
-
-        _ = NativeMethods.FreeConsole();
         HideConsoleWindow();
 
         using var hotKeyManager = new HotKeyManager();
         using var subscription = hotKeyManager.HotKeyPressed.Subscribe(HotKeyPressed);
-        using var shift1 = hotKeyManager.Register(VirtualKeyCode.VK_F1, Modifiers.Control);
+        _ = hotKeyManager.Register(VirtualKeyCode.VK_F1, Modifiers.Control);
+        _ = hotKeyManager.Register(VirtualKeyCode.VK_F2, Modifiers.Control);
+        _ = hotKeyManager.Register(VirtualKeyCode.VK_F3, Modifiers.Control);
 
         void HotKeyPressed(HotKey hotKey)
         {
@@ -26,7 +25,45 @@ internal class Program
             var soundDevice = this.GetSoundDevice(processId);
 
             if (soundDevice != null)
-                soundDevice.SimpleAudioVolume.Mute = !soundDevice.SimpleAudioVolume.Mute;
+            {
+                if (hotKey.Key == VirtualKeyCode.VK_F1 && hotKey.Modifiers == Modifiers.Control)
+                {
+
+                    soundDevice.SimpleAudioVolume.Mute = !soundDevice.SimpleAudioVolume.Mute;
+
+                    new ToastContentBuilder()
+                    .SetToastScenario(ToastScenario.Default)
+                    .SetToastDuration(ToastDuration.Short)
+                    .AddText($"ℹ️ {(soundDevice.SimpleAudioVolume.Mute ? "Muted" : "Unmuted")} '{soundDevice.DisplayName}'")
+                    .Show();
+                }
+                else if (hotKey.Key == VirtualKeyCode.VK_F2 && hotKey.Modifiers == Modifiers.Control)
+                {
+                    if (soundDevice.SimpleAudioVolume.Volume - 0.05f >= 0)
+                    {
+                        Console.WriteLine(soundDevice.SimpleAudioVolume.Volume - 0.05f);
+                        soundDevice.SimpleAudioVolume.Volume = soundDevice.SimpleAudioVolume.Volume - 0.05f;
+                    }
+                    else
+                    {
+                        Console.WriteLine(0f);
+                        soundDevice.SimpleAudioVolume.Volume = 0f;
+                    }
+                }
+                else if (hotKey.Key == VirtualKeyCode.VK_F3 && hotKey.Modifiers == Modifiers.Control)
+                {
+                    if (soundDevice.SimpleAudioVolume.Volume + 0.05f <= 1)
+                    {
+                        Console.WriteLine(soundDevice.SimpleAudioVolume.Volume + 0.05f);
+                        soundDevice.SimpleAudioVolume.Volume = soundDevice.SimpleAudioVolume.Volume + 0.05f;
+                    }
+                    else
+                    {
+                        Console.WriteLine(1f);
+                        soundDevice.SimpleAudioVolume.Volume = 1f;
+                    }
+                }
+            }
         }
 
         await Task.Delay(-1);
@@ -34,6 +71,7 @@ internal class Program
 
     private static void HideConsoleWindow()
     {
+        _ = NativeMethods.FreeConsole();
         IntPtr hWnd = NativeMethods.GetConsoleWindow();
         _ = NativeMethods.ShowWindow(hWnd, NativeMethods.SW_HIDE);
     }
